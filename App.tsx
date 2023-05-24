@@ -3,6 +3,7 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import { StatusBar, SafeAreaView, StyleSheet } from 'react-native';
 import { PaperProvider, MD3LightTheme as DefaultTheme } from "react-native-paper";
 import { AppRoutes } from './src/routes/AppRoutes';
+import { Ionicons } from '@expo/vector-icons';
 
 const theme = {
   ...DefaultTheme,
@@ -12,7 +13,8 @@ const theme = {
 export default function App() {
   return (
     <NavigationContainer>
-      <PaperProvider theme={theme}>
+      {/* @ts-ignore */}
+      <PaperProvider theme={theme} settings={{ icon: props => <Ionicons {...props} /> }}>
         <SafeAreaView style={styles.container}>
           <AppRoutes />
         </SafeAreaView>
