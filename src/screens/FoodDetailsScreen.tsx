@@ -10,7 +10,9 @@ export function FoodDetailsScreen({ route }: Props) {
     return (
         <View>
             <Text>{food.name}</Text>
-            <Text>Alergênicos: {food.allergens.join(", ")}</Text>
+            <Text>Produto contém ingrediente alergênico. Alergênicos: {food.allergens.join(", ")}
+            Caso você não tenha certeza se pode consumir este produto, consulte um médico ou profissional de saúde antes de consumi-lo. 
+            </Text>
         </View>
     );
 }
