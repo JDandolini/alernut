@@ -10,11 +10,21 @@ import { Ionicons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import FoodSelectionScreen from "../screens/FoodSelectionScreen";
 import { Text } from "react-native";
+import FoodCategorySelectionScreen from "../screens/FoodCategorySelectionScreen";
+import { Food } from "../types/food";
+import { FoodDetailsScreen } from "../screens/FoodDetailsScreen";
 
 export type AppStackParamList = {
     Welcome: undefined;
     Main: undefined;
-    FoodSelection: undefined;
+    FoodCategorySelection: undefined;
+    FoodSelection: {
+        category: string;
+        foods: Food[];
+    },
+    FoodDetails: {
+        food: Food;
+    }
 }
 
 const AppStack = createNativeStackNavigator<AppStackParamList>();
@@ -98,8 +108,24 @@ export function AppRoutes() {
                 headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
                 headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
             })}
+                name="FoodCategorySelection"
+                component={FoodCategorySelectionScreen}
+            />
+            <AppStack.Screen options={props => ({
+                title: "",
+                headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
+                headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
+            })}
                 name="FoodSelection"
                 component={FoodSelectionScreen}
+            />
+            <AppStack.Screen options={props => ({
+                title: "",
+                headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
+                headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
+            })}
+                name="FoodDetails"
+                component={FoodDetailsScreen}
             />
         </AppStack.Navigator>
     );

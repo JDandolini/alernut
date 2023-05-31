@@ -35,7 +35,7 @@ export default function MainScreen({ navigation }: Props) {
                 mode="contained"
                 style={[styles.button, { marginTop: 20 }]}
                 icon="search"
-                onPress={() => navigation.navigate("FoodSelection")}
+                onPress={() => navigation.navigate("FoodCategorySelection")}
             >
                 Procurar
             </Button>
