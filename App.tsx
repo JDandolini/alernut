@@ -4,6 +4,7 @@ import { StatusBar, SafeAreaView, StyleSheet } from 'react-native';
 import { PaperProvider, MD3LightTheme as DefaultTheme } from "react-native-paper";
 import { AppRoutes } from './src/routes/AppRoutes';
 import { Ionicons } from '@expo/vector-icons';
+import { AuthProvider } from './src/contexts/AuthContext';
 
 const theme = {
   ...DefaultTheme,
@@ -16,7 +17,9 @@ export default function App() {
       {/* @ts-ignore */}
       <PaperProvider theme={theme} settings={{ icon: props => <Ionicons {...props} /> }}>
         <SafeAreaView style={styles.container}>
-          <AppRoutes />
+          <AuthProvider>
+            <AppRoutes />
+          </AuthProvider>
         </SafeAreaView>
       </PaperProvider>
     </NavigationContainer>

@@ -1,11 +1,10 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { Button } from 'react-native-paper';
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppStackParamList } from "../routes/AppRoutes";
+import { useAuth } from "../contexts/AuthContext";
 
-type WelcomeScreenProps = NativeStackScreenProps<AppStackParamList, "Welcome">;
+export default function WelcomeScreen() {
+    const { signIn } = useAuth();
 
-export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
     return (
         <View style={styles.container}>
                 <Image style={styles.logo} resizeMode="cover" source={require("../../assets/logo.png")} />
@@ -15,7 +14,7 @@ export default function WelcomeScreen({ navigation }: WelcomeScreenProps) {
                 textColor="#d22ccc" 
                 labelStyle={styles.buttonLabel} 
                 mode="contained" 
-                onPress={() => navigation.push("Main")}
+                onPress={signIn}
             >
                 Entrar
             </Button>
