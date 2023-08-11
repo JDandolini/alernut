@@ -8,7 +8,7 @@ const {width} = Dimensions.get("screen");
 type Props = {
     text: string;
     backgroundColor: string;
-    image: AvatarImageSource;
+    image: any;
     onPress: VoidFunction;
 
 }

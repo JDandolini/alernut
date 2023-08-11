@@ -1,12 +1,14 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { Button, IconButton } from 'react-native-paper';
-import { AppStackParamList } from "../routes/AppRoutes";
+import {BottomTabScreenProps } from "@react-navigation/bottom-tabs"
+import { ProtectedTabParamList } from "../routes/AppRoutes";
 
-type Props = NativeStackScreenProps<AppStackParamList, "Main">;
+type Props = BottomTabScreenProps<ProtectedTabParamList, "Main">;
 
 export default function MainScreen({ navigation }: Props) {
     return (
+        <>
         <View style={styles.container}>
             <Image style={styles.logo} resizeMode="cover" source={require("../../assets/logo.png")} />
 
@@ -39,9 +41,22 @@ export default function MainScreen({ navigation }: Props) {
             >
                 Procurar
             </Button>
+            
+            
 
 
         </View>
+        <Button
+                textColor="black"
+                labelStyle={styles.buttonLabel}
+                mode="text"
+                style={[styles.button, { marginTop: 20,  }]}
+                icon="information-circle-outline"
+                onPress={() => navigation.navigate("GeneralInformation")}
+            >
+                Informações Gerais
+            </Button>
+            </>
     );
 }
 const styles = StyleSheet.create({
@@ -76,7 +91,7 @@ const styles = StyleSheet.create({
 
     buttonLabel: {
         fontWeight: "bold",
-        fontSize: 22,
+        fontSize: 18,
     }
 
 })

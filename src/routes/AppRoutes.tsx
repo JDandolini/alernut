@@ -16,11 +16,10 @@ import { FoodDetailsScreen } from "../screens/FoodDetailsScreen";
 import AlergiesSelectionScreen from "../screens/AlergiesSelectionScreen";
 import { useAuth } from "../contexts/AuthContext";
 import { AllergyProvider } from "../contexts/AllergyContext";
+import EmergencyAlertScreen from "../screens/EmergencyAlertScreen";
 
-export type AppStackParamList = {
-    Welcome: undefined;
-    Main: undefined;
-    FoodCategorySelection: undefined;
+export type FoodStackParamList = {
+    FoodStackMain: undefined;
     FoodSelection: {
         category: string;
         foods: Food[];
@@ -30,44 +29,41 @@ export type AppStackParamList = {
     }
 }
 
-// const AppStack = createNativeStackNavigator<AppStackParamList>();
+const FoodStack = createNativeStackNavigator<FoodStackParamList>();
 
-// export function AppRoutes() {
-//     return (
-//         <AppStack.Navigator
-//             initialRouteName="Welcome"
-//         >
-//             <AppStack.Screen options={{ headerShown: false }} name="Welcome" component={WelcomeScreen} />
-//             <AppStack.Screen options={{
-//                 headerShown: false
-//             }} name="Main" component={AppTabRoutes} />
-//             <AppStack.Screen options={props => ({
-//                 title: "",
-//                 headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
-//                 headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
-//             })}
-//                 name="FoodCategorySelection"
-//                 component={FoodCategorySelectionScreen}
-//             />
-//             <AppStack.Screen options={props => ({
-//                 title: "",
-//                 headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
-//                 headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
-//             })}
-//                 name="FoodSelection"
-//                 component={FoodSelectionScreen}
-//             />
-//             <AppStack.Screen options={props => ({
-//                 title: "",
-//                 headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
-//                 headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
-//             })}
-//                 name="FoodDetails"
-//                 component={FoodDetailsScreen}
-//             />
-//         </AppStack.Navigator>
-//     );
-// }
+export function FoodStackScreen() {
+    return (
+        <FoodStack.Navigator
+            initialRouteName="FoodStackMain"
+        >
+    
+            <FoodStack.Screen options={props => ({
+                title: "",
+                headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
+                headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
+            })}
+                name="FoodStackMain"
+                component={FoodCategorySelectionScreen}
+            />
+            <FoodStack.Screen options={props => ({
+                title: "",
+                headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
+                headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
+            })}
+                name="FoodSelection"
+                component={FoodSelectionScreen}
+            />
+            <FoodStack.Screen options={props => ({
+                title: "",
+                headerLeft: () => <Ionicons onPress={props.navigation.goBack} name="arrow-back-sharp" size={24} color="black" />,
+                headerRight: () => <Text><Ionicons name="search" size={32} color="black" /> Selecione seu produto</Text>
+            })}
+                name="FoodDetails"
+                component={FoodDetailsScreen}
+            />
+        </FoodStack.Navigator>
+    );
+}
 
 export type ProtectedTabParamList = {
     Main: undefined;
@@ -75,7 +71,6 @@ export type ProtectedTabParamList = {
     MyAlergies: undefined;
     EmergencyAlert: undefined;
     FoodCategorySelection: undefined;
-    Exit: undefined;
 }
 
 const ProtectedTab = createBottomTabNavigator<ProtectedTabParamList>();
@@ -91,10 +86,11 @@ export function PrivateRoutes() {
                     headerShown: false
                 }
                 }
+                initialRouteName="Main"
             >
                 <ProtectedTab.Screen
                     name="EmergencyAlert"
-                    component={GeneralInformationScreen}
+                    component={EmergencyAlertScreen}
                     options={{
                         tabBarLabel: "Emergência",
                         tabBarIcon: ({ color, size }) => <Octicons name="alert" size={size} color={"red"} />,
@@ -123,8 +119,16 @@ export function PrivateRoutes() {
                     tabBarButton: () => null
                 })}
                     name="FoodCategorySelection"
-                    component={FoodCategorySelectionScreen}
+                    component={FoodStackScreen}
                 />
+                <ProtectedTab.Screen
+                    name="GeneralInformation"
+                    component={GeneralInformationScreen}
+                    options={{
+                        tabBarButton: () => null
+                    }}
+                />
+            
             </ProtectedTab.Navigator >
         </AllergyProvider>
     );

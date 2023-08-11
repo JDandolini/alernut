@@ -1,16 +1,11 @@
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Checkbox, IconButton, List } from 'react-native-paper';
-import { AppStackParamList, ProtectedTabParamList } from "../routes/AppRoutes";
-import type { CompositeScreenProps } from '@react-navigation/native';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Allergy, useAllergy } from "../contexts/AllergyContext";
+import { ProtectedTabParamList } from "../routes/AppRoutes";
 
-type Props = CompositeScreenProps<
-    BottomTabScreenProps<ProtectedTabParamList, 'MyAlergies'>,
-    NativeStackScreenProps<AppStackParamList>
->;
+type Props = BottomTabScreenProps<ProtectedTabParamList, 'MyAlergies'>
 
 export default function AlergiesSelectionScreen({ navigation, route }: Props) {
     const [allergies, setAlergies] = useState<Allergy[]>([
@@ -26,7 +21,7 @@ export default function AlergiesSelectionScreen({ navigation, route }: Props) {
         { id: "10", name: "Lactose" },
         { id: "11", name: "Glúten" },
         { id: "12", name: "Latex natural" },
-        { id: "13", name: "Leite de todos os animais mamiferos" },
+        { id: "13", name: "Leite" },
         { id: "14", name: "Macâmia" },
         { id: "15", name: "Nozes" },
         { id: "16", name: "Ovos" },
@@ -56,12 +51,11 @@ export default function AlergiesSelectionScreen({ navigation, route }: Props) {
                     <List.Item
                         style={styles.item}
                         key={allergy.id}
-                        onPress={() => { }}
+                        onPress={() => toggleAllergy(allergy)}
                         title={allergy.name}
                         left={props => <Checkbox
                             {...props}
                             status={hasAllergy(allergy) ? 'checked' : 'unchecked'}
-                            onPress={() => toggleAllergy(allergy)}
                         />}
                     />
                 ))

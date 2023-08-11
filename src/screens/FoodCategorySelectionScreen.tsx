@@ -1,12 +1,17 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useMemo, useState } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 import { TextInput } from 'react-native-paper';
 import { foodCategories } from "../api/mock/foodCategories";
 import { FoodCard } from "../components/FoodCard";
-import { AppStackParamList } from "../routes/AppRoutes";
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { FoodStackParamList, ProtectedTabParamList } from "../routes/AppRoutes";
 
-type Props = NativeStackScreenProps<AppStackParamList, "FoodCategorySelection">;
+type Props = CompositeScreenProps<
+    NativeStackScreenProps<FoodStackParamList, "FoodStackMain">,
+    BottomTabScreenProps<ProtectedTabParamList>
+>;
 
 export default function FoodCategorySelectionScreen({ navigation }: Props) {
     const [text, setText] = useState("");
@@ -31,8 +36,6 @@ export default function FoodCategorySelectionScreen({ navigation }: Props) {
         return true;
     }), [text]);
 
-    console.log(filteredFoodCategories);
-
     return (
         <ScrollView style={styles.container}>
             <Text>Categorias: </Text>
@@ -53,22 +56,7 @@ export default function FoodCategorySelectionScreen({ navigation }: Props) {
             }
             </View>
 
-            {/* <View style={styles.row}>
-                <FoodCard text="Cereais, pães e tubérculos" backgroundColor="#FFCF00" image={require("../../assets/cereals.png")} />
-                <FoodCard text="Leite e derivados" backgroundColor="#4FB6D0" image={require("../../assets/milk.png")} />
-            </View>
-            <View style={styles.row}>
-                <FoodCard text="Carnes e ovos" backgroundColor="#D7195D" image={require("../../assets/meat.png")} />
-                <FoodCard text="Frutas" backgroundColor="#96CB24" image={require("../../assets/fruits.png")} />
-            </View>
-            <View style={styles.row}>
-                <FoodCard text="Óleos e gorduras" backgroundColor="#FFD670" image={require("../../assets/oils.png")} />
-                <FoodCard text="Açúcares e doces" backgroundColor="#513C2C" image={require("../../assets/candy.png")} />
-            </View>
-            <View style={styles.row}>
-                <FoodCard text="Verduras" backgroundColor="#00916E" image={require("../../assets/fruits.png")} />
-                <FoodCard text="Leguminosas" backgroundColor="#FF8964" image={require("../../assets/fruits.png")} />
-            </View> */}
+            
         </ScrollView>
     );
 }
@@ -108,9 +96,10 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: "row",
-        columnGap: 5,
+        columnGap: 8,
         marginVertical: 5,
-        flexWrap: "wrap"
+        flexWrap: "wrap",
+        rowGap: 8
     }
 
 })

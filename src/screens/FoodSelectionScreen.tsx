@@ -1,18 +1,27 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useMemo, useState } from "react";
 import { StyleSheet, View, Text, ScrollView, Alert } from "react-native";
-import { Avatar, IconButton, TextInput } from 'react-native-paper';
+import { Avatar, Chip, IconButton, TextInput } from 'react-native-paper';
 import { List } from 'react-native-paper';
-import { AppStackParamList } from "../routes/AppRoutes";
+import type { CompositeScreenProps } from '@react-navigation/native';
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { FoodStackParamList, ProtectedTabParamList } from "../routes/AppRoutes";
+import { Tag } from "../components/Tag";
+import { useAllergy } from "../contexts/AllergyContext";
 
-type Props = NativeStackScreenProps<AppStackParamList, "FoodSelection">;
+type Props = CompositeScreenProps<
+    NativeStackScreenProps<FoodStackParamList, "FoodSelection">,
+    BottomTabScreenProps<ProtectedTabParamList>
+>;
 
 export default function FoodSelectionScreen({ navigation, route }: Props) {
     const [text, setText] = useState("");
 
     const { category, foods } = route.params;
 
-    const filteredFoods = useMemo(() => foods.filter(food => text.toLowerCase().includes(food.name)), [text]);
+    const filteredFoods = useMemo(() => foods.filter(food => food.name.toLowerCase().includes(text.toLowerCase())), [text]);
+
+    const { hasAllergy } = useAllergy();
 
     return (
         <ScrollView style={styles.container}>
@@ -25,13 +34,13 @@ export default function FoodSelectionScreen({ navigation, route }: Props) {
             />
             <Text>{category}</Text>
             {
-                foods.map(food => (
+                filteredFoods.map(food => (
                     <List.Item 
                         key={food.id}
                         onPress={() => navigation.navigate("FoodDetails", { food })}
                         title={food.name}
                         left={props => <Avatar.Image source={{ uri: food.imageURL }} {...props} />}
-                        right={props => <IconButton icon="warning" size={24} iconColor="#000" />}
+                        right={() => <View style={styles.tagsContainer}>{food.allergens?.map(allergen => <Tag color={hasAllergy(allergen) ? "red" : ""} text={allergen.name} />)}</View>}
                     />
                 ))
             }
@@ -71,6 +80,15 @@ const styles = StyleSheet.create({
     buttonLabel: {
         fontWeight: "bold",
         fontSize: 22,
+    },
+    tagsContainer: {
+        width: "50%",
+        flexDirection: "row",
+        flexWrap: 'wrap',
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center",
+        rowGap: 4
     }
 
 })
